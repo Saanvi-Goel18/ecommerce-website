@@ -66,13 +66,16 @@ function addToWishlist(id) {
   alert("Added to wishlist!");
 }
 
-if (document.querySelector(".add-to-cart")) {
-  document.querySelectorAll(".add-to-cart").forEach(button => {
-    button.addEventListener("click", () => {
-      alert("Item added to cart!");
-    });
+document.querySelectorAll(".add-to-cart").forEach(button => {
+  button.addEventListener("click", () => {
+    const popup = document.getElementById("popup");
+    if (popup) {
+      popup.style.display = "block";
+      setTimeout(() => popup.style.display = "none", 2000);
+    }
   });
-}
+});
+
 
 document.querySelectorAll(".btn-category").forEach((btn) => {
   btn.addEventListener("click", () => {
