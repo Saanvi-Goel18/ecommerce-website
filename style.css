@@ -1,0 +1,156 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #fff;
+}
+
+.btn-category {
+  border: 1px solid #ccc;
+  color: #333;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin: 5px;
+}
+
+.btn-category:hover,
+.btn-category.active {
+  background-color: #333;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  transition: transform 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-img-top {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.cart-popup {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  width: 260px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cart-popup.show {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+.cart-popup-body {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cart-popup-body img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.popup-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-name {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.popup-price {
+  font-weight: 600;
+  font-size: 16px;
+  color: #444;
+}
+
+.cart-popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cart-popup-actions .btn {
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  border: none;
+  font-weight: 600;
+  border-radius: 7.5px;
+  padding: 8px 16px;
+  transition: 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #8f94fb, #4e54c8);
+  opacity: 0.95;
+}

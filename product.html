@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .product-detail-container {
+        max-width: 900px;
+        margin: 50px auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .product-detail-container img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-info {
+        flex: 1;
+        min-width: 280px;
+      }
+
+      .product-info h2 {
+        margin-bottom: 10px;
+      }
+
+      .product-info p {
+        color: #555;
+      }
+
+      .btn-buy {
+        margin-top: 20px;
+      }
+
+      #review-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      #review-list::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      #review-list::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="productDetail" class="product-detail-container">
+      <p>Loading...</p>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+      window.onload = function () {
+        const container = document.getElementById("productDetail");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = parseInt(urlParams.get("id"));
+        if (!productId) {
+          container.innerHTML = "<h2>Invalid product ID</h2>";
+          return;
+        }
+
+        const product = products.find((p) => p.id === productId);
+
+        if (!product) {
+          container.innerHTML = "<h2>Product not found</h2>";
+          return;
+        }
+
+        container.innerHTML = `
+  <img src="${product.image}" alt="${product.name}" width="400" />
+  <div class="product-info">
+    <h2>${product.name}</h2>
+    <h4>₹${product.price}</h4>
+    <p>${
+      product.description ||
+      "This is a beautiful product loved by our customers."
+    }</p>
+    <button class="btn btn-dark btn-buy">Add to Cart</button>
+    <a href="index.html" class="btn btn-outline-primary mt-3">
+  <i class="bi bi-arrow-left"></i> Back to Home
+</a>
+
+    
+   <div class="mt-5">
+  <h4 class="mb-3">Reviews (<span id="review-count">${
+    product.reviews?.length || 0
+  }</span>)</h4>
+  <div class="mb-3 d-flex align-items-center">
+    <span class="fs-5 me-2">⭐ ${product.rating || "4.5"} stars</span>
+    <a href="#review-form" class="ms-2 text-decoration-underline">Write a review</a>
+  </div>
+
+  <div id="review-list" class="border rounded p-3 bg-light">
+    ${
+      product.reviews?.length
+        ? product.reviews
+            .map(
+              (r) => `
+          <div class="border-bottom pb-2 mb-2">
+            <div class="d-flex justify-content-between">
+              <strong>⭐ ${r.rating} — ${r.name}</strong>
+              <small class="text-muted">${r.date}</small>
+            </div>
+            <div>${r.comment}</div>
+          </div>
+        `
+            )
+            .join("")
+        : `<p class="text-muted">No reviews yet. Be the first to share your thoughts!</p>`
+    }
+  </div>
+
+  <h5 class="mt-4 mb-2">Add Your Review</h5>
+  <form id="review-form" class="border p-3 bg-white rounded shadow-sm">
+    <div class="mb-2">
+      <input type="text" id="reviewerName" class="form-control" placeholder="Your name" required>
+    </div>
+    <div class="mb-2">
+      <textarea id="reviewText" class="form-control" placeholder="Write your review..." rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="rating" class="form-label">Rating:</label>
+      <select id="rating" class="form-select w-auto">
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-dark">Submit Review</button>
+  </form>
+</div>
+
+  </div>
+`;
+      };
+      document
+        .getElementById("review-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("reviewerName").value.trim();
+          const comment = document.getElementById("reviewText").value.trim();
+          const rating = document.getElementById("rating").value;
+          const date = new Date().toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+
+          if (name && comment) {
+            const reviewHTML = `
+      <div class="border-bottom pb-2 mb-2">
+        <div class="d-flex justify-content-between">
+          <strong>⭐ ${rating} — ${name}</strong>
+          <small class="text-muted">${date}</small>
+        </div>
+        <div>${comment}</div>
+      </div>
+    `;
+
+            document.getElementById("review-list").innerHTML += reviewHTML;
+
+            const countSpan = document.getElementById("review-count");
+            countSpan.textContent = parseInt(countSpan.textContent) + 1;
+
+            // Reset form
+            document.getElementById("review-form").reset();
+          }
+        });
+    </script>
+  </body>
+</html>
