@@ -66,6 +66,14 @@ function addToWishlist(id) {
   alert("Added to wishlist!");
 }
 
+if (document.querySelector(".add-to-cart")) {
+  document.querySelectorAll(".add-to-cart").forEach(button => {
+    button.addEventListener("click", () => {
+      alert("Item added to cart!");
+    });
+  });
+}
+
 document.querySelectorAll(".btn-category").forEach((btn) => {
   btn.addEventListener("click", () => {
     const category = btn.innerText;
