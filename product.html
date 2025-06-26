@@ -63,6 +63,21 @@
       <p>Loading...</p>
     </div>
 
+<div id="cart-popup" class="cart-popup hidden">
+  <button onclick="closePopup()" class="close-btn">&times;</button>
+  <div class="cart-popup-body">
+    <img id="popup-img" src="" alt="Product" />
+    <div class="popup-text">
+      <div id="popup-name" class="popup-name fw-bold"></div>
+      <div id="popup-price" class="popup-price fw-bold"></div>
+    </div>
+  </div>
+  <div class="cart-popup-actions d-flex flex-column gap-2">
+    <a href="cart.html" class="btn btn-outline-dark w-100">View Cart</a>
+    <a href="checkout.html" class="btn btn-dark w-100">Checkout</a>
+  </div>
+</div>
+
     <script src="script.js"></script>
     <script>
       window.onload = function () {
@@ -147,12 +162,6 @@
     <button type="submit" class="btn btn-dark">Submit Review</button>
   </form>
 </div>
-
-<div id="popup" style="display:none; position:fixed; top:20px; right:20px; background:#4caf50; color:white; padding:12px 18px; border-radius:8px; z-index:999;">
-  Item added to cart
-</div>
-
-
   </div>
 `;
       };
