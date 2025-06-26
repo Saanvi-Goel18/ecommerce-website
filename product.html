@@ -63,7 +63,7 @@
       <p>Loading...</p>
     </div>
 
-    <script src="data.js"></script>
+    
     <script>
       window.onload = function () {
         const container = document.getElementById("productDetail");
@@ -148,6 +148,11 @@
   </form>
 </div>
 
+<div id="popup" style="display:none; position:fixed; top:20px; right:20px; background:#4caf50; color:white; padding:12px 18px; border-radius:8px; z-index:999;">
+  Item added to cart
+</div>
+
+
   </div>
 `;
       };
@@ -181,15 +186,10 @@
             const countSpan = document.getElementById("review-count");
             countSpan.textContent = parseInt(countSpan.textContent) + 1;
 
-            // Reset form
             document.getElementById("review-form").reset();
           }
         });
     </script>
     <script src="script.js"></script>
-    <div id="popup" style="display:none; position:fixed; top:20px; right:20px; background:#4caf50; color:white; padding:10px 20px; border-radius:8px; z-index:999;">
-      Item added to cart!
-    </div>
-
   </body>
 </html>
