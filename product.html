@@ -8,6 +8,10 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <style>
       .product-detail-container {
@@ -63,113 +67,108 @@
       <p>Loading...</p>
     </div>
 
-<div id="cart-popup" class="cart-popup hidden">
-  <button onclick="closePopup()" class="close-btn">&times;</button>
-  <div class="cart-popup-body">
-    <img id="popup-img" src="" alt="Product" />
-    <div class="popup-text">
-      <div id="popup-name" class="popup-name fw-bold"></div>
-      <div id="popup-price" class="popup-price fw-bold"></div>
+    <div id="cart-popup" class="cart-popup hidden">
+      <button onclick="closePopup()" class="close-btn">&times;</button>
+      <div class="cart-popup-body">
+        <img id="popup-img" src="" alt="Product" />
+        <div class="popup-text">
+          <div id="popup-name" class="popup-name fw-bold"></div>
+          <div id="popup-price" class="popup-price fw-bold"></div>
+        </div>
+      </div>
+      <div class="cart-popup-actions d-flex flex-column gap-2">
+        <a href="cart.html" class="btn btn-outline-dark w-100">View Cart</a>
+        <a href="checkout.html" class="btn btn-dark w-100">Checkout</a>
+      </div>
     </div>
-  </div>
-  <div class="cart-popup-actions d-flex flex-column gap-2">
-    <a href="cart.html" class="btn btn-outline-dark w-100">View Cart</a>
-    <a href="checkout.html" class="btn btn-dark w-100">Checkout</a>
-  </div>
-</div>
 
+    <script src="data.js"></script>
     <script src="script.js"></script>
     <script>
       window.onload = function () {
         const container = document.getElementById("productDetail");
-
         const urlParams = new URLSearchParams(window.location.search);
         const productId = parseInt(urlParams.get("id"));
+
         if (!productId) {
           container.innerHTML = "<h2>Invalid product ID</h2>";
           return;
         }
 
         const product = products.find((p) => p.id === productId);
-
         if (!product) {
           container.innerHTML = "<h2>Product not found</h2>";
           return;
         }
 
         container.innerHTML = `
-  <img src="${product.image}" alt="${product.name}" width="400" />
-  <div class="product-info">
-    <h2>${product.name}</h2>
-    <h4>₹${product.price}</h4>
-    <p>${
-      product.description ||
-      "This is a beautiful product loved by our customers."
-    }</p>
-    <button class="btn btn-dark btn-buy">Add to Cart</button>
-    <a href="index.html" class="btn btn-outline-primary mt-3">
-  <i class="bi bi-arrow-left"></i> Back to Home
-</a>
+          <img src="${product.image}" alt="${product.name}" width="400" />
+          <div class="product-info">
+            <h2>${product.name}</h2>
+            <h4>₹${product.price}</h4>
+            <p>${product.description || "This is a beautiful product loved by our customers."}</p>
+            <button class="btn btn-dark btn-buy">Add to Cart</button>
+            <a href="index.html" class="btn btn-outline-primary mt-3">
+              <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
 
-    
-   <div class="mt-5">
-  <h4 class="mb-3">Reviews (<span id="review-count">${
-    product.reviews?.length || 0
-  }</span>)</h4>
-  <div class="mb-3 d-flex align-items-center">
-    <span class="fs-5 me-2">⭐ ${product.rating || "4.5"} stars</span>
-    <a href="#review-form" class="ms-2 text-decoration-underline">Write a review</a>
-  </div>
-
-  <div id="review-list" class="border rounded p-3 bg-light">
-    ${
-      product.reviews?.length
-        ? product.reviews
-            .map(
-              (r) => `
-          <div class="border-bottom pb-2 mb-2">
-            <div class="d-flex justify-content-between">
-              <strong>⭐ ${r.rating} — ${r.name}</strong>
-              <small class="text-muted">${r.date}</small>
+            <div class="mt-5">
+              <h4 class="mb-3">Reviews (<span id="review-count">${product.reviews?.length || 0}</span>)</h4>
+              <div class="mb-3 d-flex align-items-center">
+                <span class="fs-5 me-2">⭐ ${product.rating || "4.5"} stars</span>
+                <a href="#review-form" class="ms-2 text-decoration-underline">Write a review</a>
+              </div>
+              <div id="review-list" class="border rounded p-3 bg-light">
+                ${
+                  product.reviews?.length
+                    ? product.reviews
+                        .map(
+                          (r) => `
+                            <div class="border-bottom pb-2 mb-2">
+                              <div class="d-flex justify-content-between">
+                                <strong>⭐ ${r.rating} — ${r.name}</strong>
+                                <small class="text-muted">${r.date}</small>
+                              </div>
+                              <div>${r.comment}</div>
+                            </div>
+                          `
+                        )
+                        .join("")
+                    : `<p class="text-muted">No reviews yet. Be the first to share your thoughts!</p>`
+                }
+              </div>
+              <h5 class="mt-4 mb-2">Add Your Review</h5>
+              <form id="review-form" class="border p-3 bg-white rounded shadow-sm">
+                <div class="mb-2">
+                  <input type="text" id="reviewerName" class="form-control" placeholder="Your name" required />
+                </div>
+                <div class="mb-2">
+                  <textarea id="reviewText" class="form-control" placeholder="Write your review..." rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="rating" class="form-label">Rating:</label>
+                  <select id="rating" class="form-select w-auto">
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="1">⭐</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-dark">Submit Review</button>
+              </form>
             </div>
-            <div>${r.comment}</div>
           </div>
-        `
-            )
-            .join("")
-        : `<p class="text-muted">No reviews yet. Be the first to share your thoughts!</p>`
-    }
-  </div>
+        `;
 
-  <h5 class="mt-4 mb-2">Add Your Review</h5>
-  <form id="review-form" class="border p-3 bg-white rounded shadow-sm">
-    <div class="mb-2">
-      <input type="text" id="reviewerName" class="form-control" placeholder="Your name" required>
-    </div>
-    <div class="mb-2">
-      <textarea id="reviewText" class="form-control" placeholder="Write your review..." rows="3" required></textarea>
-    </div>
-    <div class="mb-3">
-      <label for="rating" class="form-label">Rating:</label>
-      <select id="rating" class="form-select w-auto">
-        <option value="5">⭐⭐⭐⭐⭐</option>
-        <option value="4">⭐⭐⭐⭐</option>
-        <option value="3">⭐⭐⭐</option>
-        <option value="2">⭐⭐</option>
-        <option value="1">⭐</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-dark">Submit Review</button>
-  </form>
-</div>
-  </div>
-`;
-      };
-      document
-        .getElementById("review-form")
-        .addEventListener("submit", function (e) {
+        const cartBtn = document.querySelector(".btn-buy");
+        cartBtn?.addEventListener("click", () => {
+          addToCart(product.id);
+          showPopup(product.name, product.price, product.image);
+        });
+
+        document.getElementById("review-form")?.addEventListener("submit", function (e) {
           e.preventDefault();
-
           const name = document.getElementById("reviewerName").value.trim();
           const comment = document.getElementById("reviewText").value.trim();
           const rating = document.getElementById("rating").value;
@@ -181,24 +180,22 @@
 
           if (name && comment) {
             const reviewHTML = `
-      <div class="border-bottom pb-2 mb-2">
-        <div class="d-flex justify-content-between">
-          <strong>⭐ ${rating} — ${name}</strong>
-          <small class="text-muted">${date}</small>
-        </div>
-        <div>${comment}</div>
-      </div>
-    `;
+              <div class="border-bottom pb-2 mb-2">
+                <div class="d-flex justify-content-between">
+                  <strong>⭐ ${rating} — ${name}</strong>
+                  <small class="text-muted">${date}</small>
+                </div>
+                <div>${comment}</div>
+              </div>
+            `;
 
             document.getElementById("review-list").innerHTML += reviewHTML;
-
             const countSpan = document.getElementById("review-count");
             countSpan.textContent = parseInt(countSpan.textContent) + 1;
-
             document.getElementById("review-form").reset();
           }
         });
+      };
     </script>
-   
   </body>
 </html>
