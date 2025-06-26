@@ -68,13 +68,15 @@ function addToWishlist(id) {
 
 document.querySelectorAll(".add-to-cart").forEach(button => {
   button.addEventListener("click", () => {
+
     const popup = document.getElementById("popup");
     if (popup) {
       popup.style.display = "block";
-      setTimeout(() => popup.style.display = "none", 2000);
+      setTimeout(() => { popup.style.display = "none"; }, 2000);
     }
   });
 });
+
 
 
 document.querySelectorAll(".btn-category").forEach((btn) => {
